@@ -125,7 +125,7 @@ Plugin 'junegunn/vim-easy-align'
 
 " :ColorToggle
 Plugin 'lilydjwg/colorizer'
-
+Plugin 'vim-scripts/AnsiEsc.vim'
 " Syntaxes for a lot of languages
 Plugin 'sheerun/vim-polyglot'
 
