@@ -178,16 +178,10 @@ alias torrent="transmission-cli -w ~/torrent/ "
 #dictionary search
 alias look="look"
 
-eval $(thefuck --alias)
-alias f="fuck"
+#eval $(thefuck --alias)
+#alias f="fuck"
 alias makev="make SHELL='sh -x'"
 
-alias PI="projectInfo"
-alias PIF="projectInfo fetch"
-alias PIf="projectInfo fetch"
-
-alias redshiftus="redshift -l 0.236966:-97.734886"
-alias redshiftcz="redshift -l 49.194991:16.609631"
 
 ## set some other defaults ##
 alias df="df -hT"
@@ -458,4 +452,7 @@ elif [ -d /usr/share/fzf ] ; then
     source /usr/share/fzf/key-bindings.bash
 fi
 
+if [[ -f ~/.bash_profile ]]; then                                                                                  
+    source ~/.bash_profile     
+fi
 

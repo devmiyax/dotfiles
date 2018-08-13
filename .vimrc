@@ -499,11 +499,11 @@ let g:clang_format#style_options = {
       \ "BreakBeforeBraces": "Allman",
       \ "BreakConstructorInitializersBeforeComma": "true",
       \ "IndentCaseLabels": "true",
-      \ "IndentWidth":     4,
+      \ "IndentWidth":     2,
       \ "MaxEmptyLinesToKeep": 2,
       \ "NamespaceIndentation": "Inner",
-      \ "ObjCBlockIndentWidth": 4,
-      \ "TabWidth": 4}
+      \ "ObjCBlockIndentWidth": 2,
+      \ "TabWidth": 2}
 
 augroup ClangFormatSettings
     autocmd!
