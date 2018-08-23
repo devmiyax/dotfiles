@@ -9,7 +9,7 @@ esac
 # check the window size after each command and, if necessary,
 # update the values of LINES and COLUMNS.
 shopt -s checkwinsize
-
+shopt -s expand_aliases
 
 #------------------------------------------------------------------------------
 # custom
@@ -22,6 +22,104 @@ pathadd() {
     fi
 }
 pathadd "/home/${USER}/bin/"
+
+function welcome() {
+    local upSeconds="$(/usr/bin/cut -d. -f1 /proc/uptime)"
+    local secs=$((upSeconds%60))
+    local mins=$((upSeconds/60%60))
+    local hours=$((upSeconds/3600%24))
+    local days=$((upSeconds/86400))
+    local UPTIME=$(printf "%d days, %02dh%02dm%02ds" "$days" "$hours" "$mins" "$secs")
+
+    # calculate rough CPU and GPU temperatures:
+    local cpuTempC
+    local cpuTempF
+    local gpuTempC
+    local gpuTempF
+    if [[ -f "/sys/class/thermal/thermal_zone0/temp" ]]; then
+        cpuTempC=$(($(cat /sys/class/thermal/thermal_zone0/temp)/1000)) && cpuTempF=$((cpuTempC*9/5+32))
+    fi
+
+    local df_out=()
+    local line
+    while read line; do
+        df_out+=("$line")
+    done < <(df -h /)
+
+    local rst="$(tput sgr0)"
+    local fgblk="${rst}$(tput setaf 0)" # Black - Regular
+    local fgred="${rst}$(tput setaf 1)" # Red
+    local fggrn="${rst}$(tput setaf 2)" # Green
+    local fgylw="${rst}$(tput setaf 3)" # Yellow
+    local fgblu="${rst}$(tput setaf 4)" # Blue
+    local fgpur="${rst}$(tput setaf 5)" # Purple
+    local fgcyn="${rst}$(tput setaf 6)" # Cyan
+    local fgwht="${rst}$(tput setaf 7)" # White
+
+    local bld="$(tput bold)"
+    local bfgblk="${bld}$(tput setaf 0)"
+    local bfgred="${bld}$(tput setaf 1)"
+    local bfggrn="${bld}$(tput setaf 2)"
+    local bfgylw="${bld}$(tput setaf 3)"
+    local bfgblu="${bld}$(tput setaf 4)"
+    local bfgpur="${bld}$(tput setaf 5)"
+    local bfgcyn="${bld}$(tput setaf 6)"
+    local bfgwht="${bld}$(tput setaf 7)"
+
+local logo=(
+"                    "
+"${fgred}     ___ _       __ "
+"${fgred}   /   | |     / /  "
+"${fgred}  / /| | | /| / /   "
+"${fgred} / ___ | |/ |/ /    "
+"${fgred}/_/  |_|__/|__/     "
+"${fgred}                    "
+"                    "
+"                    "
+"                    "
+
+)
+
+
+    local out
+    local i
+    for i in "${!logo[@]}"; do
+        out+="  ${logo[$i]}  "
+        case "$i" in
+            0)
+                out+="${fggrn}$(date +"%A, %e %B %Y, %r")"
+                ;;
+            1)
+                out+="${fggrn}$(uname -srmo)"
+                ;;
+            3)
+                out+="${fgylw}${df_out[0]}"
+                ;;
+            4)
+                out+="${fgwht}${df_out[1]}"
+                ;;
+            5)
+                out+="${fgred}Uptime.............: ${UPTIME}"
+                ;;
+            6)
+                out+="${fgred}Memory.............: $(grep MemFree /proc/meminfo | awk {'print $2'})kB (Free) / $(grep MemTotal /proc/meminfo | awk {'print $2'})kB (Total)"
+                ;;
+            7)
+                out+="${fgred}Running Processes..: $(ps ax | wc -l | tr -d " ")"
+                ;;
+            8)
+                out+="${fgred}IP Address.........: $(ip route get 8.8.8.8 2>/dev/null | awk '{print $NF; exit}')"
+                ;;
+            9)
+                out+="Temperature........: CPU: $cpuTempC°C/$cpuTempF°F "
+                ;;
+        esac
+        out+="\n"
+    done
+    echo -e "\n$out"
+}
+
+welcome
 
 # export TERM=rxvt-256color
 
@@ -40,7 +138,7 @@ pathadd "/home/${USER}/bin/"
 # PS1='\[\e[1;35m\]\u@\h\[\e[m\] \[\e[1;34m\]\w \[\e[1;37m\]'
 
 # Purple
-# PS1="\[\033[38;5;215m\]\u@\h \[$(tput sgr0)\]\[\033[38;5;12m\]\w \[$(tput sgr0)\]"
+PS1="\[\033[38;5;215m\]\u@\h \[$(tput sgr0)\]\[\033[38;5;12m\]\w \[$(tput sgr0)\]"
 
 # Run ssh agent only once, ignore gnome-keyring
 if ! pgrep -u "$USER" -f -x "^ssh-agent$" > /dev/null; then
@@ -451,8 +549,3 @@ elif [ -d /usr/share/fzf ] ; then
     source /usr/share/fzf/completion.bash
     source /usr/share/fzf/key-bindings.bash
 fi
-
-if [[ -f ~/.bash_profile ]]; then                                                                                  
-    source ~/.bash_profile     
-fi
-

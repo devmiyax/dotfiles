@@ -29,7 +29,7 @@ Plugin 'junegunn/gv.vim'
 Plugin 'tpope/vim-surround'
 
 
-Plugin 'tomtom/tcomment_vim'
+" Plugin 'tomtom/tcomment_vim'
 
 Plugin 'bling/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -38,7 +38,7 @@ Plugin 'airblade/vim-gitgutter'
 
 Plugin 'easymotion/vim-easymotion'
 
-Plugin 'terryma/vim-multiple-cursors'
+" Plugin 'terryma/vim-multiple-cursors'
 
 Plugin 'ctrlpvim/ctrlp.vim'
 
@@ -46,9 +46,9 @@ Plugin 'jpo/vim-railscasts-theme'
 
 Plugin 'scrooloose/nerdTree'
 
-Plugin 'vim-scripts/indentpython.vim'
+" Plugin 'vim-scripts/indentpython.vim'
 
-Plugin 'vim-scripts/argtextobj.vim'
+"   Plugin 'vim-scripts/argtextobj.vim'
 
 " new text objects
 Plugin 'kana/vim-textobj-user'
@@ -200,11 +200,12 @@ filetype plugin on
 " Key shortcuts in VIM
 " !! bash output on screen, current line is stdin
 
+let mapleader=","
 
 "General
-set number  "Show line numbers
-set relativenumber
-nmap <leader>num :set nu! <CR>:set rnu!<CR>
+"set number  "Show line numbers
+"set relativenumber
+nmap <leader>nu :set nu! <CR>:set rnu!<CR>
 set wrap  "enable wraping
 set linebreak   "Break lines at word (requires Wrap lines)
 set nolist         " list disables linebreak
@@ -238,10 +239,10 @@ nnoremap <leader><space> :noh<cr>
 set virtualedit=onemore  "allow to go one character behind the end of the line
 set autoindent  "Auto-indent new lines
 set expandtab   "Use spaces instead of tabs
-set shiftwidth=4    "Number of auto-indent spaces
+set shiftwidth=2    "Number of auto-indent spaces
 set smartindent "Enable smart-indent
 set smarttab    "Enable smart-tabs
-set softtabstop=4   "Number of spaces per Tab
+set softtabstop=2   "Number of spaces per Tab
 set wildmenu            " visual autocomplete for command menu
 set wildignore+=*.o,*.obj,*.bak,*.exe,*.py[co],*.swp,*~,*.pyc,.svn,*/cm/log/**,tags,*.jpg,*.png,*.jpeg,*.png,*.mesh,build*/**,build/**,*.sublime-workspace,*.svg,build2/**,build3/**
 set lazyredraw          " redraw only when we need to.
