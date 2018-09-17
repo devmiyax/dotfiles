@@ -28,6 +28,7 @@ Plugin 'junegunn/gv.vim'
 
 Plugin 'tpope/vim-surround'
 
+Plugin 'lighttiger2505/gtags.vim'
 
 " Plugin 'tomtom/tcomment_vim'
 
